@@ -1,12 +1,14 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Utils;
 
 namespace PlayerSystem
 {
     public class PlayerInvoker : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D rb;
+        [SerializeField] private LayerMask ground;
         [SerializeField] private float speed;
         [SerializeField] private float jumpForce;
         
@@ -18,27 +20,35 @@ namespace PlayerSystem
             Init();
         }
 
+        private void Update()
+        {
+            _movement.Move(_playerInput.Action.Movement.ReadValue<float>());
+        }
+
         void OnEnable()
         {
             _playerInput.Enable();
-
-            StartCoroutine(Move());
         }
         
         void OnDisable()
         {
             _playerInput.Disable();
-
-            StopCoroutine(Move());
         }
 
-        private IEnumerator Move()
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            yield return new WaitForSeconds(Time.fixedDeltaTime);
-            
-            _movement.Move(_playerInput.Action.Movement.ReadValue<float>());
+            if (ground.Contains(other.gameObject.layer))
+            {
+                _playerInput.Action.Jump.Enable();
+            }
+        }
 
-            StartCoroutine(Move());
+        private void OnCollisionExit2D(Collision2D other)
+        {
+            if (ground.Contains(other.gameObject.layer))
+            {
+                _playerInput.Action.Jump.Disable();
+            }
         }
 
         private void Init()

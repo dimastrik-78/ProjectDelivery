@@ -134,7 +134,7 @@ GameObject:
   - component: {fileID: 73489780}
   - component: {fileID: 73489779}
   - component: {fileID: 73489778}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -351,6 +351,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 670891862}
+  ground:
+    serializedVersion: 2
+    m_Bits: 64
   speed: 5
   jumpForce: 2
 --- !u!212 &670891860
