@@ -24,7 +24,16 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "DoorAction",
+                    "name": "Slide",
+                    "type": "Button",
+                    "id": "1f54f3d0-ce16-49c3-88ee-c6ded8b1a7ce",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interaction",
                     "type": "Button",
                     "id": "6ddebc8a-5b83-416f-a79f-74dd59efce9e",
                     "expectedControlType": "Button",
@@ -85,7 +94,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "DoorAction",
+                    "action": "Interaction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ea5c76f2-ab0f-402b-8f5f-8c2c0a7c1623",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Slide",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

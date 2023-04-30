@@ -46,7 +46,16 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""DoorAction"",
+                    ""name"": ""Slide"",
+                    ""type"": ""Button"",
+                    ""id"": ""1f54f3d0-ce16-49c3-88ee-c6ded8b1a7ce"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Interaction"",
                     ""type"": ""Button"",
                     ""id"": ""6ddebc8a-5b83-416f-a79f-74dd59efce9e"",
                     ""expectedControlType"": ""Button"",
@@ -107,7 +116,18 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""DoorAction"",
+                    ""action"": ""Interaction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ea5c76f2-ab0f-402b-8f5f-8c2c0a7c1623"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Slide"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -126,7 +146,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Action = asset.FindActionMap("Action", throwIfNotFound: true);
         m_Action_Movement = m_Action.FindAction("Movement", throwIfNotFound: true);
         m_Action_Jump = m_Action.FindAction("Jump", throwIfNotFound: true);
-        m_Action_DoorAction = m_Action.FindAction("DoorAction", throwIfNotFound: true);
+        m_Action_Slide = m_Action.FindAction("Slide", throwIfNotFound: true);
+        m_Action_Interaction = m_Action.FindAction("Interaction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -190,14 +211,16 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<IActionActions> m_ActionActionsCallbackInterfaces = new List<IActionActions>();
     private readonly InputAction m_Action_Movement;
     private readonly InputAction m_Action_Jump;
-    private readonly InputAction m_Action_DoorAction;
+    private readonly InputAction m_Action_Slide;
+    private readonly InputAction m_Action_Interaction;
     public struct ActionActions
     {
         private @PlayerInput m_Wrapper;
         public ActionActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Action_Movement;
         public InputAction @Jump => m_Wrapper.m_Action_Jump;
-        public InputAction @DoorAction => m_Wrapper.m_Action_DoorAction;
+        public InputAction @Slide => m_Wrapper.m_Action_Slide;
+        public InputAction @Interaction => m_Wrapper.m_Action_Interaction;
         public InputActionMap Get() { return m_Wrapper.m_Action; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -213,9 +236,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
-            @DoorAction.started += instance.OnDoorAction;
-            @DoorAction.performed += instance.OnDoorAction;
-            @DoorAction.canceled += instance.OnDoorAction;
+            @Slide.started += instance.OnSlide;
+            @Slide.performed += instance.OnSlide;
+            @Slide.canceled += instance.OnSlide;
+            @Interaction.started += instance.OnInteraction;
+            @Interaction.performed += instance.OnInteraction;
+            @Interaction.canceled += instance.OnInteraction;
         }
 
         private void UnregisterCallbacks(IActionActions instance)
@@ -226,9 +252,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
-            @DoorAction.started -= instance.OnDoorAction;
-            @DoorAction.performed -= instance.OnDoorAction;
-            @DoorAction.canceled -= instance.OnDoorAction;
+            @Slide.started -= instance.OnSlide;
+            @Slide.performed -= instance.OnSlide;
+            @Slide.canceled -= instance.OnSlide;
+            @Interaction.started -= instance.OnInteraction;
+            @Interaction.performed -= instance.OnInteraction;
+            @Interaction.canceled -= instance.OnInteraction;
         }
 
         public void RemoveCallbacks(IActionActions instance)
@@ -259,6 +288,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnDoorAction(InputAction.CallbackContext context);
+        void OnSlide(InputAction.CallbackContext context);
+        void OnInteraction(InputAction.CallbackContext context);
     }
 }
