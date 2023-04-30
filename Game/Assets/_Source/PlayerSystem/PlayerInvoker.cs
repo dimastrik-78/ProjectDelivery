@@ -1,3 +1,4 @@
+using SignalSystem;
 using UnityEngine;
 using Utils;
 
@@ -10,15 +11,16 @@ namespace PlayerSystem
         [SerializeField] private LayerMask ground;
         [SerializeField] private LayerMask wall;
         [SerializeField] private LayerMask door;
+        [SerializeField] private LayerMask obstacle;
         [SerializeField] private float speed;
         [SerializeField] private float jumpForce;
         [SerializeField] private float slideForce;
         [SerializeField] private float slideTime;
         [SerializeField] private GameObject startRayPos;
         
-        private bool _jumpOn;
         private PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
+        private bool _jumpOn;
 
         private void Awake()
         {
@@ -42,6 +44,7 @@ namespace PlayerSystem
         void OnEnable()
         {
             _playerInput.Enable();
+            _playerInput.Action.Interaction.Disable();
         }
         
         void OnDisable()
@@ -55,6 +58,11 @@ namespace PlayerSystem
             {
                 _playerInput.Action.Jump.Enable();
                 rb.gravityScale = 0;
+            }
+
+            if (obstacle.Contains(other.gameObject.layer))
+            {
+                Signals.Get<RemoveTimeSignal>().Dispatch();
             }
         }
     
@@ -75,7 +83,7 @@ namespace PlayerSystem
         {
             if (door.Contains(other.gameObject.layer))
             {
-                Debug.Log("yes");
+                _playerInput.Action.Interaction.Enable();
             }
         }
         
@@ -83,7 +91,7 @@ namespace PlayerSystem
         {
             if (door.Contains(other.gameObject.layer))
             {
-                Debug.Log("no");
+                _playerInput.Action.Interaction.Disable();
             }
         }
     
@@ -93,6 +101,8 @@ namespace PlayerSystem
             _playerMovement = new PlayerMovement(rb, playerCollider, speed, jumpForce, slideForce, slideTime);
             _playerInput.Action.Jump.performed += context => _playerMovement.Jump();
             _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide());
+            _playerInput.Action.Interaction.performed += context => Signals.Get<AddTimeSignal>().Dispatch();
+            _playerInput.Action.Interaction.performed += context => Signals.Get<DisableDoorSignal>().Dispatch();
         }
     }
 }

@@ -34,12 +34,10 @@ namespace PlayerSystem
 
         public IEnumerator Slide()
         {
-            Debug.Log("test");
             if (_collider2D.size.y != 1
                 && _rigidbody2D.velocity != Vector2.zero)
             {
-                // _isSliding = true;
-                _collider2D.size = new Vector2(1, 1); // _slideTime
+                _collider2D.size = new Vector2(1, 1);
 
                 _rigidbody2D.AddForce(_slideForce * _rigidbody2D.velocity, ForceMode2D.Impulse);
             }
