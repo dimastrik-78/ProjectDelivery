@@ -14,7 +14,6 @@ namespace PlayerSystem
         {
             _rb = GetComponent<Rigidbody2D>();
             _playerSlide = GetComponent<PlayerSlide>();
-
         }
         
         private void FixedUpdate()
