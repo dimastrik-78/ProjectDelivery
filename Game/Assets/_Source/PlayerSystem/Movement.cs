@@ -22,7 +22,11 @@ namespace PlayerSystem
 
         public void Jump()
         {
-            _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            _rigidbody2D.velocity = Vector2.up * _jumpForce;
+
         }
+        
+        
+        
     }
 }

@@ -44,6 +44,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DoorAction"",
+                    ""type"": ""Button"",
+                    ""id"": ""6ddebc8a-5b83-416f-a79f-74dd59efce9e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -90,6 +99,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""17c6e247-145e-41e7-acc1-c60f21a92c49"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DoorAction"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -106,6 +126,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Action = asset.FindActionMap("Action", throwIfNotFound: true);
         m_Action_Movement = m_Action.FindAction("Movement", throwIfNotFound: true);
         m_Action_Jump = m_Action.FindAction("Jump", throwIfNotFound: true);
+        m_Action_DoorAction = m_Action.FindAction("DoorAction", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -169,12 +190,14 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private List<IActionActions> m_ActionActionsCallbackInterfaces = new List<IActionActions>();
     private readonly InputAction m_Action_Movement;
     private readonly InputAction m_Action_Jump;
+    private readonly InputAction m_Action_DoorAction;
     public struct ActionActions
     {
         private @PlayerInput m_Wrapper;
         public ActionActions(@PlayerInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Action_Movement;
         public InputAction @Jump => m_Wrapper.m_Action_Jump;
+        public InputAction @DoorAction => m_Wrapper.m_Action_DoorAction;
         public InputActionMap Get() { return m_Wrapper.m_Action; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -190,6 +213,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @DoorAction.started += instance.OnDoorAction;
+            @DoorAction.performed += instance.OnDoorAction;
+            @DoorAction.canceled += instance.OnDoorAction;
         }
 
         private void UnregisterCallbacks(IActionActions instance)
@@ -200,6 +226,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @DoorAction.started -= instance.OnDoorAction;
+            @DoorAction.performed -= instance.OnDoorAction;
+            @DoorAction.canceled -= instance.OnDoorAction;
         }
 
         public void RemoveCallbacks(IActionActions instance)
@@ -230,5 +259,6 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnDoorAction(InputAction.CallbackContext context);
     }
 }
