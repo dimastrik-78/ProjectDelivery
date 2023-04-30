@@ -15,7 +15,8 @@ namespace PlayerSystem
         [SerializeField] private float slideForce;
         [SerializeField] private float slideTime;
         [SerializeField] private GameObject startRayPos;
-        
+
+
         private bool _jumpOn;
         private PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
@@ -27,7 +28,7 @@ namespace PlayerSystem
 
         private void FixedUpdate()
         {
-            _jumpOn = Physics2D.Raycast(startRayPos.transform.position, -Vector2.up, 0f,ground);
+            _jumpOn = Physics2D.Raycast(startRayPos.transform.position, -Vector2.up, 0f, ground);
         }
 
         private void Update()
@@ -43,7 +44,7 @@ namespace PlayerSystem
         {
             _playerInput.Enable();
         }
-        
+
         void OnDisable()
         {
             _playerInput.Disable();
@@ -57,28 +58,31 @@ namespace PlayerSystem
                 rb.gravityScale = 0;
             }
         }
-    
+
         private void OnCollisionExit2D(Collision2D other)
         {
             if (ground.Contains(other.gameObject.layer))
             {
                 _playerInput.Action.Jump.Disable();
             }
+
             if (wall.Contains(other.gameObject.layer))
             {
                 _playerInput.Action.Jump.Disable();
                 rb.gravityScale = 1;
             }
         }
-    
+
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (door.Contains(other.gameObject.layer))
             {
                 Debug.Log("yes");
             }
+
+
         }
-        
+
         private void OnTriggerExit2D(Collider2D other)
         {
             if (door.Contains(other.gameObject.layer))
@@ -86,13 +90,14 @@ namespace PlayerSystem
                 Debug.Log("no");
             }
         }
-    
+
         private void Init()
         {
             _playerInput = new PlayerInput();
             _playerMovement = new PlayerMovement(rb, playerCollider, speed, jumpForce, slideForce, slideTime);
             _playerInput.Action.Jump.performed += context => _playerMovement.Jump();
             _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide());
+            
         }
     }
 }
