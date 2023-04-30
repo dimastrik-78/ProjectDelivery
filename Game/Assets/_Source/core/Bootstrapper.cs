@@ -11,7 +11,13 @@ namespace core
         
         private void Start()
         {
+            Init();
+        }
+
+        private void Init()
+        {
             StartCoroutine(new TimerController(time, addTime, removeTime).Check());
+            
         }
     }
 }

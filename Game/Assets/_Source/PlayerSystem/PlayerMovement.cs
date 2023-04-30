@@ -22,15 +22,12 @@ namespace PlayerSystem
             _slideTime = slideTime;
         }
         
-        public void Move(float value)
-        {
+        public void Move(float value) =>
             _rigidbody2D.velocity = new Vector2(value * _speed, _rigidbody2D.velocity.y);
-        }
+        
 
-        public void Jump()
-        {
+        public void Jump() =>
             _rigidbody2D.velocity = Vector2.up * _jumpForce;
-        }
 
         public IEnumerator Slide()
         {
