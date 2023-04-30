@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using Utils;
 
@@ -11,13 +9,12 @@ namespace PlayerSystem
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private LayerMask ground;
         [SerializeField] private LayerMask wall;
+        [SerializeField] private LayerMask door;
         [SerializeField] private float speed;
         [SerializeField] private float jumpForce;
-        [SerializeField] private float num;
         [SerializeField] private GameObject startRayPos;
-      
-
-        private bool jumpOn;
+        
+        private bool _jumpOn;
         private PlayerInput _playerInput;
         private Movement _movement;
 
@@ -28,31 +25,16 @@ namespace PlayerSystem
 
         private void FixedUpdate()
         {
-            if(Physics2D.Raycast(startRayPos.transform.position, -Vector2.up, 0f,ground))
-            {
-                jumpOn = true;
-            
-                
-            }
-            else
-            {
-                jumpOn = false;
-            }
-            
+            _jumpOn = Physics2D.Raycast(startRayPos.transform.position, -Vector2.up, 0f,ground);
         }
 
         private void Update()
         {
             _movement.Move(_playerInput.Action.Movement.ReadValue<float>());
-            if (jumpOn)
+            if (_jumpOn)
             {
                 _playerInput.Action.Jump.Enable();
             }
-            else
-            {
-                return;
-            }
-      
         }
 
         void OnEnable()
@@ -65,35 +47,15 @@ namespace PlayerSystem
             _playerInput.Disable();
         }
 
-        //private void OnCollisionEnter2D(Collision2D other)
-       // {
-         //   if (ground.Contains(other.gameObject.layer))
-        //    {
-         //       _playerInput.Action.Jump.Enable();
-          //  }
-            
-            
-        
-        private void OnCollisionStay2D(Collision2D other)
+        private void OnCollisionEnter2D(Collision2D other)
         {
-            
             if (wall.Contains(other.gameObject.layer))
             {
-                  
                 _playerInput.Action.Jump.Enable();
-                rb.velocity *=  num;
-
-
-
-
+                rb.gravityScale = 0;
             }
-
-
-            
-            
         }
-       
-
+    
         private void OnCollisionExit2D(Collision2D other)
         {
             if (ground.Contains(other.gameObject.layer))
@@ -103,19 +65,31 @@ namespace PlayerSystem
             if (wall.Contains(other.gameObject.layer))
             {
                 _playerInput.Action.Jump.Disable();
+                rb.gravityScale = 1;
             }
-            
         }
-
+    
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            if (door.Contains(other.gameObject.layer))
+            {
+                Debug.Log("yes");
+            }
+        }
+        
+        private void OnTriggerExit2D(Collider2D other)
+        {
+            if (door.Contains(other.gameObject.layer))
+            {
+                Debug.Log("no");
+            }
+        }
+    
         private void Init()
         {
             _playerInput = new PlayerInput();
             _movement = new Movement(rb, speed, jumpForce);
             _playerInput.Action.Jump.performed += context => _movement.Jump();
-            
-            
         }
-
-        
     }
 }

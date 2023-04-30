@@ -23,10 +23,6 @@ namespace PlayerSystem
         public void Jump()
         {
             _rigidbody2D.velocity = Vector2.up * _jumpForce;
-
         }
-        
-        
-        
     }
 }
