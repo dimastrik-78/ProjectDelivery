@@ -34,10 +34,13 @@ namespace PlayerSystem
 
         private void Update()
         {
-            _playerMovement.Move(_playerInput.Action.Movement.ReadValue<float>());
-            if (_jumpOn)
+            if (!_playerMovement.IsSliding)
             {
-                _playerInput.Action.Jump.Enable();
+                _playerMovement.Move(_playerInput.Action.Movement.ReadValue<float>());
+                if (_jumpOn)
+                {
+                    _playerInput.Action.Jump.Enable();
+                }
             }
         }
 

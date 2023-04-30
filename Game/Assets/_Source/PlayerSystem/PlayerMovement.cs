@@ -11,8 +11,13 @@ namespace PlayerSystem
         private readonly float _jumpForce;
         private readonly float _slideForce;
         private readonly float _slideTime;
+        
+        private bool _isSliding;
 
-        public PlayerMovement(Rigidbody2D rigidbody2D, CapsuleCollider2D collider2D, float speed, float jumpForce, float slideForce, float slideTime)
+        public bool IsSliding => _isSliding;
+
+        public PlayerMovement(Rigidbody2D rigidbody2D, CapsuleCollider2D collider2D, 
+            float speed, float jumpForce, float slideForce, float slideTime)
         {
             _rigidbody2D = rigidbody2D;
             _collider2D = collider2D;
@@ -34,13 +39,14 @@ namespace PlayerSystem
             if (_collider2D.size.y != 1
                 && _rigidbody2D.velocity != Vector2.zero)
             {
+                _isSliding = true;
                 _collider2D.size = new Vector2(1, 1);
-
                 _rigidbody2D.AddForce(_slideForce * _rigidbody2D.velocity, ForceMode2D.Impulse);
-            }
 
-            yield return new WaitForSeconds(_slideTime);
-            _collider2D.size = new Vector2(1, 2);
+                yield return new WaitForSeconds(_slideTime);
+                _collider2D.size = new Vector2(1, 2);
+                _isSliding = false;
+            }
         }
     }
 }
