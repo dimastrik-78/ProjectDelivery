@@ -7,7 +7,7 @@ namespace core
     {
         [SerializeField] private int time;
         
-        void Start()
+        private void Start()
         {
             StartCoroutine(new TimerController(time).Check());
         }
