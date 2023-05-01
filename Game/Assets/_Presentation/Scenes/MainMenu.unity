@@ -442,7 +442,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: -618891752459820670, guid: cff576173b51fa44b91736955a85e0c0, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 0b3109e029111b4499024f39e2fd969e, type: 3}
+  m_audioClip: {fileID: 8300000, guid: d0b6775bd150c444a9feb413ff6e7f07, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -879,6 +879,8 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: cff576173b51fa44b91736955a85e0c0, type: 2}
   sliderEffects: {fileID: 521219627}
   sliderMusics: {fileID: 911159479}
+  buttonMusic: {fileID: 0}
+  buttonEffects: {fileID: 0}
 --- !u!1 &1116570977
 GameObject:
   m_ObjectHideFlags: 0
