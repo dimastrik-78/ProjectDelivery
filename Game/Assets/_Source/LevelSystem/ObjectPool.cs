@@ -18,7 +18,6 @@ namespace LevelSystem
         {
             GameObject tile = CheckPool();
             tile.transform.position = _spawnPoint.position;
-            _spawnPoint.position = new Vector3(0, 0, _spawnPoint.position.z + tile.transform.localScale.z);
             tile.SetActive(true);
         }
 

@@ -44,7 +44,7 @@ namespace PlayerSystem
                 _rigidbody2D.AddForce(_slideForce * _rigidbody2D.velocity, ForceMode2D.Impulse);
 
                 yield return new WaitForSeconds(_slideTime);
-                _collider2D.size = new Vector2(1, 2);
+                _collider2D.size = new Vector2(1.5f, 4.5f);
                 _isSliding = false;
             }
         }

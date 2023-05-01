@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2762050952621193102}
   - component: {fileID: 2762050952621193097}
   - component: {fileID: 2762050952621193103}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,10 +114,10 @@ MonoBehaviour:
     m_Bits: 256
   obstacle:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 512
   speed: 5
   jumpForce: 7
-  slideForce: 4
+  slideForce: 1
   slideTime: 1
   startRayPos: {fileID: 2762050953004478241}
 --- !u!50 &2762050952621193102
@@ -155,7 +155,7 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 1.5, y: 4.5}
   m_Direction: 0
 --- !u!114 &2762050952621193103
 MonoBehaviour:
@@ -171,7 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stairsMask:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 1024
   time: 1.8
 --- !u!1 &2762050953004478241
 GameObject:
@@ -182,7 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2762050953004478246}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: startRayPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

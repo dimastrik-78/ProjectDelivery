@@ -8,6 +8,8 @@ namespace PlayerSystem
     {
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private CapsuleCollider2D playerCollider;
+        [SerializeField] private SpriteRenderer sprite;
+        [SerializeField] private Animator animator;
         [SerializeField] private LayerMask ground;
         [SerializeField] private LayerMask wall;
         [SerializeField] private LayerMask door;
@@ -20,6 +22,7 @@ namespace PlayerSystem
         
         private PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
+        private PlayerAnimation _playerAnimation;
         private bool _jumpOn;
 
         private void Awake()
@@ -42,6 +45,8 @@ namespace PlayerSystem
                     _playerInput.Action.Jump.Enable();
                 }
             }
+            
+            _playerAnimation.Update();
         }
 
         void OnEnable()
@@ -102,8 +107,12 @@ namespace PlayerSystem
         {
             _playerInput = new PlayerInput();
             _playerMovement = new PlayerMovement(rb, playerCollider, speed, jumpForce, slideForce, slideTime);
+            _playerAnimation = new PlayerAnimation(rb, sprite, animator);
+                
             _playerInput.Action.Jump.performed += context => _playerMovement.Jump();
+            _playerInput.Action.Jump.performed += context => animator.SetTrigger("jump");
             _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide());
+            _playerInput.Action.Slide.performed += context => animator.SetTrigger("slide");
             _playerInput.Action.Interaction.performed += context => Signals.Get<AddTimeSignal>().Dispatch();
             _playerInput.Action.Interaction.performed += context => Signals.Get<DisableDoorSignal>().Dispatch();
         }
