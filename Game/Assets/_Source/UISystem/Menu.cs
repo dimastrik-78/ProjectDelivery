@@ -71,22 +71,16 @@ namespace UISystem
         {
             audioMixer.SetFloat("Music", -80f);
             PlayerPrefs.SetFloat("MusicOff", sliderMusics.value);
-            Debug.Log("q");
-        
         }
+        
         public void SoundOn()
         {
-            sliderEffects.value = PlayerPrefs.GetFloat("EffectsOff"); 
-        
-        
+            sliderEffects.value = PlayerPrefs.GetFloat("EffectsOff");
         }
 
         public void MusicOn()
         {
             sliderMusics.value = PlayerPrefs.GetFloat("MusicOff");
-       
-        
         }
-    
     }
 }
