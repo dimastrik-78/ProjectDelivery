@@ -25,7 +25,7 @@ namespace core
         private void Init()
         {
             StartCoroutine(new TimerController(time, addTime, removeTime).Check());
-            new Generation().InstTiles(new ObjectPool(point), firstTile, countSpawnTile);
+            // new Generation().InstTiles(new ObjectPool(point), firstTile, countSpawnTile);
         }
     }
 }

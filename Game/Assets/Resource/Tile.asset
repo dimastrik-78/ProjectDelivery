@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ece91ed0d347678f9f449d6cc170d3, type: 3}
   m_Name: Tile
   m_EditorClassIdentifier: 
-  tile: {fileID: 4054440215133030339, guid: 70a70783bb60f034d870d3c519239c00, type: 3}
+  tile: {fileID: 9214165894904947571, guid: f99c568ff629ab043bf807c6a9ba8c5d, type: 3}
   attachableTiles: []
   chance: 

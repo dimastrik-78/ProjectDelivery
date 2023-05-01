@@ -19,7 +19,9 @@ namespace PlayerSystem
         [SerializeField] private float slideForce;
         [SerializeField] private float slideTime;
         [SerializeField] private GameObject startRayPos;
-        
+
+        private readonly int _jump = Animator.StringToHash("jump");
+
         private PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
         private PlayerAnimation _playerAnimation;
@@ -110,9 +112,8 @@ namespace PlayerSystem
             _playerAnimation = new PlayerAnimation(rb, sprite, animator);
                 
             _playerInput.Action.Jump.performed += context => _playerMovement.Jump();
-            _playerInput.Action.Jump.performed += context => animator.SetTrigger("jump");
-            _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide());
-            _playerInput.Action.Slide.performed += context => animator.SetTrigger("slide");
+            _playerInput.Action.Jump.performed += context => animator.SetTrigger(_jump);
+            _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide(animator));
             _playerInput.Action.Interaction.performed += context => Signals.Get<AddTimeSignal>().Dispatch();
             _playerInput.Action.Interaction.performed += context => Signals.Get<DisableDoorSignal>().Dispatch();
         }
