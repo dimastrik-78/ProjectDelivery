@@ -21,7 +21,8 @@ namespace PlayerSystem
         [SerializeField] private GameObject startRayPos;
 
         private readonly int _jump = Animator.StringToHash("jump");
-
+        private readonly int _isHoldingToWall = Animator.StringToHash("isHoldingToWall");
+        
         private PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
         private PlayerAnimation _playerAnimation;
@@ -45,6 +46,7 @@ namespace PlayerSystem
                 if (_jumpOn)
                 {
                     _playerInput.Action.Jump.Enable();
+                    animator.SetBool(_jump, false);
                 }
             }
             
@@ -68,6 +70,8 @@ namespace PlayerSystem
             {
                 _playerInput.Action.Jump.Enable();
                 rb.gravityScale = 0;
+                animator.SetBool(_jump, false);
+                animator.SetBool(_isHoldingToWall, true);
             }
 
             if (obstacle.Contains(other.gameObject.layer))
@@ -81,11 +85,15 @@ namespace PlayerSystem
             if (ground.Contains(other.gameObject.layer))
             {
                 _playerInput.Action.Jump.Disable();
+                animator.SetBool(_jump, true);
             }
+            
             if (wall.Contains(other.gameObject.layer))
             {
                 _playerInput.Action.Jump.Disable();
                 rb.gravityScale = 1;
+                animator.SetBool(_jump, false);
+                animator.SetBool(_isHoldingToWall, false);
             }
         }
     
@@ -112,7 +120,6 @@ namespace PlayerSystem
             _playerAnimation = new PlayerAnimation(rb, sprite, animator);
                 
             _playerInput.Action.Jump.performed += context => _playerMovement.Jump();
-            _playerInput.Action.Jump.performed += context => animator.SetTrigger(_jump);
             _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide(animator));
             _playerInput.Action.Interaction.performed += context => Signals.Get<AddTimeSignal>().Dispatch();
             _playerInput.Action.Interaction.performed += context => Signals.Get<DisableDoorSignal>().Dispatch();

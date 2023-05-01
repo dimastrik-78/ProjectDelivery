@@ -40,7 +40,7 @@ namespace PlayerSystem
             if (_collider2D.size.y != 1
                 && _rigidbody2D.velocity != Vector2.zero)
             {
-                animator.SetTrigger(_slide);
+                animator.SetBool(_slide, true);
                 
                 _isSliding = true;
                 _collider2D.size = new Vector2(1.25f, 1.25f);
@@ -49,6 +49,7 @@ namespace PlayerSystem
                 yield return new WaitForSeconds(_slideTime);
                 _rigidbody2D.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
                 _collider2D.size = new Vector2(1.25f, 3.5f);
+                animator.SetBool(_slide, false);
                 _isSliding = false;
             }
         }
