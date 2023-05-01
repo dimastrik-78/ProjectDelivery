@@ -33,9 +33,18 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Interaction",
+                    "name": "InteractionDoor",
                     "type": "Button",
                     "id": "6ddebc8a-5b83-416f-a79f-74dd59efce9e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "InteractionClimb",
+                    "type": "Button",
+                    "id": "e2257d3e-6cfd-4624-9d76-6e5135507208",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -94,7 +103,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interaction",
+                    "action": "InteractionDoor",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -106,6 +115,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Slide",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "84f01d64-f49d-4ba9-95c5-972d3c846001",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "InteractionClimb",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

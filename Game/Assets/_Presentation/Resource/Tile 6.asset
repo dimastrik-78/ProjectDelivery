@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ece91ed0d347678f9f449d6cc170d3, type: 3}
+  m_Name: Tile 6
+  m_EditorClassIdentifier: 
+  tile: {fileID: 5481694426342260539, guid: 7b858461372a1b846b5cfd3403e26b50, type: 3}
+  attachableTiles:
+  - {fileID: 7916759022330070586, guid: cd30c77512815f54aaa8680c96e35c9c, type: 3}
+  - {fileID: 702390399662010126, guid: 5d19e2f96921fc1449f6c2715cde7c4a, type: 3}
+  chance: 

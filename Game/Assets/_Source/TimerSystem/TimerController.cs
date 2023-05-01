@@ -52,7 +52,7 @@ namespace TimerSystem
                 _time--;
                 yield return new WaitForSeconds(1f);
             }
-            Debug.Log("Game Over");
+            Signals.Get<GameOverSignal>().Dispatch();
             Repudiation();
         }
 

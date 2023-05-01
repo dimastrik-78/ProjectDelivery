@@ -55,9 +55,18 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Interaction"",
+                    ""name"": ""InteractionDoor"",
                     ""type"": ""Button"",
                     ""id"": ""6ddebc8a-5b83-416f-a79f-74dd59efce9e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""InteractionClimb"",
+                    ""type"": ""Button"",
+                    ""id"": ""e2257d3e-6cfd-4624-9d76-6e5135507208"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -116,7 +125,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Interaction"",
+                    ""action"": ""InteractionDoor"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -128,6 +137,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Slide"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""84f01d64-f49d-4ba9-95c5-972d3c846001"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""InteractionClimb"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -147,7 +167,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_Action_Movement = m_Action.FindAction("Movement", throwIfNotFound: true);
         m_Action_Jump = m_Action.FindAction("Jump", throwIfNotFound: true);
         m_Action_Slide = m_Action.FindAction("Slide", throwIfNotFound: true);
-        m_Action_Interaction = m_Action.FindAction("Interaction", throwIfNotFound: true);
+        m_Action_InteractionDoor = m_Action.FindAction("InteractionDoor", throwIfNotFound: true);
+        m_Action_InteractionClimb = m_Action.FindAction("InteractionClimb", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -212,7 +233,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_Action_Movement;
     private readonly InputAction m_Action_Jump;
     private readonly InputAction m_Action_Slide;
-    private readonly InputAction m_Action_Interaction;
+    private readonly InputAction m_Action_InteractionDoor;
+    private readonly InputAction m_Action_InteractionClimb;
     public struct ActionActions
     {
         private @PlayerInput m_Wrapper;
@@ -220,7 +242,8 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Movement => m_Wrapper.m_Action_Movement;
         public InputAction @Jump => m_Wrapper.m_Action_Jump;
         public InputAction @Slide => m_Wrapper.m_Action_Slide;
-        public InputAction @Interaction => m_Wrapper.m_Action_Interaction;
+        public InputAction @InteractionDoor => m_Wrapper.m_Action_InteractionDoor;
+        public InputAction @InteractionClimb => m_Wrapper.m_Action_InteractionClimb;
         public InputActionMap Get() { return m_Wrapper.m_Action; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -239,9 +262,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Slide.started += instance.OnSlide;
             @Slide.performed += instance.OnSlide;
             @Slide.canceled += instance.OnSlide;
-            @Interaction.started += instance.OnInteraction;
-            @Interaction.performed += instance.OnInteraction;
-            @Interaction.canceled += instance.OnInteraction;
+            @InteractionDoor.started += instance.OnInteractionDoor;
+            @InteractionDoor.performed += instance.OnInteractionDoor;
+            @InteractionDoor.canceled += instance.OnInteractionDoor;
+            @InteractionClimb.started += instance.OnInteractionClimb;
+            @InteractionClimb.performed += instance.OnInteractionClimb;
+            @InteractionClimb.canceled += instance.OnInteractionClimb;
         }
 
         private void UnregisterCallbacks(IActionActions instance)
@@ -255,9 +281,12 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @Slide.started -= instance.OnSlide;
             @Slide.performed -= instance.OnSlide;
             @Slide.canceled -= instance.OnSlide;
-            @Interaction.started -= instance.OnInteraction;
-            @Interaction.performed -= instance.OnInteraction;
-            @Interaction.canceled -= instance.OnInteraction;
+            @InteractionDoor.started -= instance.OnInteractionDoor;
+            @InteractionDoor.performed -= instance.OnInteractionDoor;
+            @InteractionDoor.canceled -= instance.OnInteractionDoor;
+            @InteractionClimb.started -= instance.OnInteractionClimb;
+            @InteractionClimb.performed -= instance.OnInteractionClimb;
+            @InteractionClimb.canceled -= instance.OnInteractionClimb;
         }
 
         public void RemoveCallbacks(IActionActions instance)
@@ -289,6 +318,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnSlide(InputAction.CallbackContext context);
-        void OnInteraction(InputAction.CallbackContext context);
+        void OnInteractionDoor(InputAction.CallbackContext context);
+        void OnInteractionClimb(InputAction.CallbackContext context);
     }
 }

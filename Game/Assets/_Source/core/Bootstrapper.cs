@@ -13,9 +13,11 @@ namespace core
         [SerializeField] private int removeTime;
 
         [Header("Level System")] 
-        [SerializeField] private Tile firstTile;
+        [SerializeField] private GameObject firstTile;
+        [SerializeField] private GameObject transform;
         [SerializeField] private Transform point;
         [SerializeField] private int countSpawnTile;
+        [SerializeField] private Transform center;
         
         private void Start()
         {
@@ -25,7 +27,7 @@ namespace core
         private void Init()
         {
             StartCoroutine(new TimerController(time, addTime, removeTime).Check());
-            // new Generation().InstTiles(new ObjectPool(point), firstTile, countSpawnTile);
+            new Generation(transform).InstTiles(new ObjectPool(point), firstTile.transform.GetChild(0).GetComponent<Tile>(), countSpawnTile, center);
         }
     }
 }

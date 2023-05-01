@@ -1,3 +1,4 @@
+using ObjectInteractionSystem;
 using SignalSystem;
 using UnityEngine;
 using Utils;
@@ -14,10 +15,12 @@ namespace PlayerSystem
         [SerializeField] private LayerMask wall;
         [SerializeField] private LayerMask door;
         [SerializeField] private LayerMask obstacle;
+        [SerializeField] private LayerMask climb;
         [SerializeField] private float speed;
         [SerializeField] private float jumpForce;
         [SerializeField] private float slideForce;
         [SerializeField] private float slideTime;
+        [SerializeField] private float climbTime;
         [SerializeField] private GameObject startRayPos;
 
         private readonly int _jump = Animator.StringToHash("jump");
@@ -27,6 +30,7 @@ namespace PlayerSystem
         private PlayerMovement _playerMovement;
         private PlayerAnimation _playerAnimation;
         private bool _jumpOn;
+        private Transform _endPointClimb;
 
         private void Awake()
         {
@@ -56,7 +60,7 @@ namespace PlayerSystem
         void OnEnable()
         {
             _playerInput.Enable();
-            _playerInput.Action.Interaction.Disable();
+            _playerInput.Action.InteractionDoor.Disable();
         }
         
         void OnDisable()
@@ -101,7 +105,13 @@ namespace PlayerSystem
         {
             if (door.Contains(other.gameObject.layer))
             {
-                _playerInput.Action.Interaction.Enable();
+                _playerInput.Action.InteractionDoor.Enable();
+            }
+            
+            if (climb.Contains(other.gameObject.layer))
+            {
+                _endPointClimb = other.GetComponent<Stairs>().GetPoint;
+                _playerInput.Action.InteractionClimb.Enable();
             }
         }
         
@@ -109,20 +119,26 @@ namespace PlayerSystem
         {
             if (door.Contains(other.gameObject.layer))
             {
-                _playerInput.Action.Interaction.Disable();
+                _playerInput.Action.InteractionDoor.Disable();
+            }
+            
+            if (climb.Contains(other.gameObject.layer))
+            {
+                _playerInput.Action.InteractionClimb.Disable();
             }
         }
     
         private void Init()
         {
             _playerInput = new PlayerInput();
-            _playerMovement = new PlayerMovement(rb, playerCollider, speed, jumpForce, slideForce, slideTime);
+            _playerMovement = new PlayerMovement(rb, playerCollider, speed, jumpForce, slideForce, slideTime, climbTime);
             _playerAnimation = new PlayerAnimation(rb, sprite, animator);
                 
             _playerInput.Action.Jump.performed += context => _playerMovement.Jump();
             _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide(animator));
-            _playerInput.Action.Interaction.performed += context => Signals.Get<AddTimeSignal>().Dispatch();
-            _playerInput.Action.Interaction.performed += context => Signals.Get<DisableDoorSignal>().Dispatch();
+            _playerInput.Action.InteractionDoor.performed += context => Signals.Get<AddTimeSignal>().Dispatch();
+            _playerInput.Action.InteractionDoor.performed += context => Signals.Get<DisableDoorSignal>().Dispatch();
+            _playerInput.Action.InteractionClimb.performed += context => _playerMovement.Climb(animator, transform, _endPointClimb);
         }
     }
 }

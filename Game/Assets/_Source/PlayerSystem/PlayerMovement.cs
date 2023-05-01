@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace PlayerSystem
@@ -11,14 +12,16 @@ namespace PlayerSystem
         private readonly float _jumpForce;
         private readonly float _slideForce;
         private readonly float _slideTime;
+        private readonly float _climbTime;
         private readonly int _slide = Animator.StringToHash("slide");
+        private readonly int _isCliming = Animator.StringToHash("isCliming");
         
         private bool _isSliding;
 
         public bool IsSliding => _isSliding;
 
         public PlayerMovement(Rigidbody2D rigidbody2D, CapsuleCollider2D collider2D, 
-            float speed, float jumpForce, float slideForce, float slideTime)
+            float speed, float jumpForce, float slideForce, float slideTime, float climbTime)
         {
             _rigidbody2D = rigidbody2D;
             _collider2D = collider2D;
@@ -26,6 +29,7 @@ namespace PlayerSystem
             _jumpForce = jumpForce;
             _slideForce = slideForce;
             _slideTime = slideTime;
+            _climbTime = climbTime;
         }
         
         public void Move(float value) =>
@@ -52,6 +56,15 @@ namespace PlayerSystem
                 animator.SetBool(_slide, false);
                 _isSliding = false;
             }
+        }
+
+        public void Climb(Animator animator, Transform player, Transform endPoint)
+        {
+            animator.SetBool(_isCliming, true);
+            player.DOMove( endPoint.position, _climbTime , false).OnComplete(() =>
+            {
+                animator.SetBool(_isCliming, false);
+            });
         }
     }
 }
