@@ -14,8 +14,8 @@ namespace LevelSystem
             for (int i = 0; i < countSpawn; i++)
             {
                 pool.AddTile(Object.Instantiate(tileSO.Tile));
+                return;
                 pool.TileMoving();
-
                 tileSO = tileSO.AttachableTiles[_random.Next(0, tileSO.AttachableTiles.Length)].GetComponent<Tile>()
                     .GetTileSO();
             }

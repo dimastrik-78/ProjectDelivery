@@ -11,6 +11,7 @@ namespace PlayerSystem
         private readonly float _jumpForce;
         private readonly float _slideForce;
         private readonly float _slideTime;
+        private readonly int _slide = Animator.StringToHash("slide");
         
         private bool _isSliding;
 
@@ -34,17 +35,20 @@ namespace PlayerSystem
         public void Jump() =>
             _rigidbody2D.velocity = Vector2.up * _jumpForce;
 
-        public IEnumerator Slide()
+        public IEnumerator Slide(Animator animator)
         {
             if (_collider2D.size.y != 1
                 && _rigidbody2D.velocity != Vector2.zero)
             {
+                animator.SetTrigger(_slide);
+                
                 _isSliding = true;
-                _collider2D.size = new Vector2(1, 1);
+                _collider2D.size = new Vector2(1.25f, 1.25f);
                 _rigidbody2D.AddForce(_slideForce * _rigidbody2D.velocity, ForceMode2D.Impulse);
 
                 yield return new WaitForSeconds(_slideTime);
-                _collider2D.size = new Vector2(1.5f, 4.5f);
+                _rigidbody2D.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
+                _collider2D.size = new Vector2(1.25f, 3.5f);
                 _isSliding = false;
             }
         }
