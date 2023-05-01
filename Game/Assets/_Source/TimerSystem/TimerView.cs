@@ -10,7 +10,12 @@ namespace TimerSystem
 
         private void Awake()
         {
-            Signals.Get<UpdateTimeUISignal>().AddListener(ChangeTimer);
+            Signals.Get<UpdateTimeSignal>().AddListener(ChangeTimer);
+        }
+
+        private void OnDisable()
+        {
+            Signals.Get<UpdateTimeSignal>().RemoveListener(ChangeTimer);
         }
 
         private void ChangeTimer(int time)

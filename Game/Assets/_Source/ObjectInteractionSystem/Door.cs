@@ -1,4 +1,5 @@
-﻿using SignalSystem;
+﻿using AudioSystem;
+using SignalSystem;
 using UnityEngine;
 using Utils;
 
@@ -27,6 +28,7 @@ namespace ObjectInteractionSystem
 
         private void Disable()
         {
+            Audio.UseDoorAudio.Play();
             boxCollider.enabled = false;
             Signals.Get<DisableDoorSignal>().RemoveListener(Disable);
         }

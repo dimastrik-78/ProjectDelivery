@@ -39,10 +39,12 @@ namespace PlayerSystem
         public void Jump() =>
             _rigidbody2D.velocity = Vector2.up * _jumpForce;
 
-        public IEnumerator Slide(Animator animator)
+        public IEnumerator Slide(Animator animator, bool cant)
         {
             if (_collider2D.size.y != 1
-                && _rigidbody2D.velocity != Vector2.zero)
+                && _rigidbody2D.velocity != Vector2.zero
+                && cant
+                && !_isSliding)
             {
                 animator.SetBool(_slide, true);
                 
@@ -61,7 +63,7 @@ namespace PlayerSystem
         public void Climb(Animator animator, Transform player, Transform endPoint)
         {
             animator.SetBool(_isCliming, true);
-            player.DOMove( endPoint.position, _climbTime , false).OnComplete(() =>
+            player.DOMove(endPoint.position, _climbTime, false).OnComplete(() =>
             {
                 animator.SetBool(_isCliming, false);
             });

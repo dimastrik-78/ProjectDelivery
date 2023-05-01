@@ -35,27 +35,25 @@ namespace TimerSystem
         private void AddTime()
         {
             _time += _addTime;
-            Signals.Get<UpdateTimeUISignal>().Dispatch(_time);
+            Signals.Get<UpdateTimeSignal>().Dispatch(_time);
         }
 
         private void RemoveTime()
         {
             _time -= _removeTime;
-            Signals.Get<UpdateTimeUISignal>().Dispatch(_time);
+            Signals.Get<UpdateTimeSignal>().Dispatch(_time);
         }
 
         public IEnumerator Check()
         {
             while (!(_time < 0))
             {
-                Signals.Get<UpdateTimeUISignal>().Dispatch(_time);
+                Signals.Get<UpdateTimeSignal>().Dispatch(_time);
                 _time--;
                 yield return new WaitForSeconds(1f);
             }
-            Signals.Get<GameOverSignal>().Dispatch();
             Repudiation();
+            Signals.Get<GameOverSignal>().Dispatch();
         }
-
-        
     }
 }

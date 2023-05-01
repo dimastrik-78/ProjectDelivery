@@ -1,3 +1,4 @@
+using AudioSystem;
 using ObjectInteractionSystem;
 using SignalSystem;
 using UnityEngine;
@@ -53,7 +54,6 @@ namespace PlayerSystem
                     animator.SetBool(_jump, false);
                 }
             }
-            
             _playerAnimation.Update();
         }
 
@@ -76,11 +76,6 @@ namespace PlayerSystem
                 rb.gravityScale = 0;
                 animator.SetBool(_jump, false);
                 animator.SetBool(_isHoldingToWall, true);
-            }
-
-            if (obstacle.Contains(other.gameObject.layer))
-            {
-                Signals.Get<RemoveTimeSignal>().Dispatch();
             }
         }
     
@@ -110,8 +105,15 @@ namespace PlayerSystem
             
             if (climb.Contains(other.gameObject.layer))
             {
+                Debug.Log("tes");
                 _endPointClimb = other.GetComponent<Stairs>().GetPoint;
                 _playerInput.Action.InteractionClimb.Enable();
+            }
+            
+            if (obstacle.Contains(other.gameObject.layer))
+            {
+                Audio.DamageAudio.Play();
+                Signals.Get<RemoveTimeSignal>().Dispatch();
             }
         }
         
@@ -135,10 +137,15 @@ namespace PlayerSystem
             _playerAnimation = new PlayerAnimation(rb, sprite, animator);
                 
             _playerInput.Action.Jump.performed += context => _playerMovement.Jump();
-            _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide(animator));
+            _playerInput.Action.Jump.performed += context => Audio.JumpAudio.Play();
+            _playerInput.Action.Jump.performed += context => _playerInput.Action.Slide.Disable();
+            _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide(animator, _jumpOn));
             _playerInput.Action.InteractionDoor.performed += context => Signals.Get<AddTimeSignal>().Dispatch();
             _playerInput.Action.InteractionDoor.performed += context => Signals.Get<DisableDoorSignal>().Dispatch();
             _playerInput.Action.InteractionClimb.performed += context => _playerMovement.Climb(animator, transform, _endPointClimb);
+            
+            _playerInput.Action.InteractionDoor.Disable();
+            _playerInput.Action.InteractionClimb.Disable();
         }
     }
 }

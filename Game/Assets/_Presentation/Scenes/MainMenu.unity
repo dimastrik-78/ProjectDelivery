@@ -879,8 +879,8 @@ MonoBehaviour:
   audioMixer: {fileID: 24100000, guid: cff576173b51fa44b91736955a85e0c0, type: 2}
   sliderEffects: {fileID: 521219627}
   sliderMusics: {fileID: 911159479}
-  buttonMusic: {fileID: 0}
-  buttonEffects: {fileID: 0}
+  buttonMusic: {fileID: 1409549283}
+  buttonEffects: {fileID: 1414765958}
 --- !u!1 &1116570977
 GameObject:
   m_ObjectHideFlags: 0
