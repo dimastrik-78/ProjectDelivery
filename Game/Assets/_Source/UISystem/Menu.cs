@@ -13,6 +13,7 @@ namespace UISystem
         [SerializeField] private AudioMixer audioMixer;
         [SerializeField] private Slider sliderEffects;
         [SerializeField] private Slider sliderMusics;
+        
     
 
         void Awake()
@@ -72,7 +73,8 @@ namespace UISystem
             audioMixer.SetFloat("Music", -80f);
             PlayerPrefs.SetFloat("MusicOff", sliderMusics.value);
             Debug.Log("q");
-        
+            
+
         }
         public void SoundOn()
         {
@@ -83,9 +85,14 @@ namespace UISystem
 
         public void MusicOn()
         {
+           
+                
             sliderMusics.value = PlayerPrefs.GetFloat("MusicOff");
-       
-        
+            
+
+            
+
+
         }
     
     }
