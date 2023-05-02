@@ -52,6 +52,7 @@ namespace PlayerSystem
                 if (_jumpOn)
                 {
                     _playerInput.Action.Jump.Enable();
+                    _playerInput.Action.Slide.Enable();
                     animator.SetBool(_jump, false);
                 }
             }
