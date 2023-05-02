@@ -26,11 +26,12 @@ namespace PlayerSystem
 
         private readonly int _jump = Animator.StringToHash("jump");
         private readonly int _isHoldingToWall = Animator.StringToHash("isHoldingToWall");
-        
+
         private PlayerInput _playerInput;
         private PlayerMovement _playerMovement;
         private PlayerAnimation _playerAnimation;
         private bool _jumpOn;
+        private bool _canClim;
         private Transform _endPointClimb;
 
         private void Awake()
@@ -84,6 +85,7 @@ namespace PlayerSystem
             if (ground.Contains(other.gameObject.layer))
             {
                 _playerInput.Action.Jump.Disable();
+                _playerInput.Action.Slide.Enable();
                 animator.SetBool(_jump, true);
             }
             
@@ -105,9 +107,9 @@ namespace PlayerSystem
             
             if (climb.Contains(other.gameObject.layer))
             {
-                Debug.Log("tes");
                 _endPointClimb = other.GetComponent<Stairs>().GetPoint;
                 _playerInput.Action.InteractionClimb.Enable();
+                _canClim = true;
             }
             
             if (obstacle.Contains(other.gameObject.layer))
@@ -127,6 +129,7 @@ namespace PlayerSystem
             if (climb.Contains(other.gameObject.layer))
             {
                 _playerInput.Action.InteractionClimb.Disable();
+                _canClim = false;
             }
         }
     
@@ -142,7 +145,7 @@ namespace PlayerSystem
             _playerInput.Action.Slide.performed += context => StartCoroutine(_playerMovement.Slide(animator, _jumpOn));
             _playerInput.Action.InteractionDoor.performed += context => Signals.Get<AddTimeSignal>().Dispatch();
             _playerInput.Action.InteractionDoor.performed += context => Signals.Get<DisableDoorSignal>().Dispatch();
-            _playerInput.Action.InteractionClimb.performed += context => _playerMovement.Climb(animator, transform, _endPointClimb);
+            _playerInput.Action.InteractionClimb.performed += context => _playerMovement.Climb(animator, transform, _endPointClimb, _canClim);
             
             _playerInput.Action.InteractionDoor.Disable();
             _playerInput.Action.InteractionClimb.Disable();

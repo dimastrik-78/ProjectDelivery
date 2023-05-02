@@ -53,20 +53,22 @@ namespace PlayerSystem
                 _rigidbody2D.AddForce(_slideForce * _rigidbody2D.velocity, ForceMode2D.Impulse);
 
                 yield return new WaitForSeconds(_slideTime);
-                _rigidbody2D.AddForce(Vector2.up * 10, ForceMode2D.Impulse);
                 _collider2D.size = new Vector2(1.25f, 3.5f);
                 animator.SetBool(_slide, false);
                 _isSliding = false;
             }
         }
 
-        public void Climb(Animator animator, Transform player, Transform endPoint)
+        public void Climb(Animator animator, Transform player, Transform endPoint, bool can)
         {
-            animator.SetBool(_isCliming, true);
-            player.DOMove(endPoint.position, _climbTime, false).OnComplete(() =>
+            if (can)
             {
-                animator.SetBool(_isCliming, false);
-            });
+                animator.SetBool(_isCliming, true);
+                player.DOMove(endPoint.position, _climbTime, false).OnComplete(() =>
+                {
+                    animator.SetBool(_isCliming, false);
+                });
+            }
         }
     }
 }

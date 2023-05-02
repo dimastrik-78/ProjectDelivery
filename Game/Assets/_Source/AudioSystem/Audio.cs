@@ -45,6 +45,10 @@ namespace AudioSystem
             {
                 RunAudio.Play();
             }
+            else
+            {
+                RunAudio.Stop();
+            }
         }
 
         private void TimeCheck(int time)
